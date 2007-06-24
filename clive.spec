@@ -8,6 +8,7 @@ Source0:	http://dl.gna.org/clive/0.2/src/%{name}-%{version}.tar.gz
 # Source0-md5:	c95efbae806eca1cce4120552bfdd1b8
 URL:		http://home.gna.org/clive/
 BuildRequires:	python-devel >= 2.5
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
