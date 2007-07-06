@@ -1,4 +1,5 @@
 Summary:	Video extraction utility for YouTube and Google Video
+Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
 Version:	0.2.0
 Release:	1
@@ -7,7 +8,9 @@ Group:		Applications/System
 Source0:	http://dl.gna.org/clive/0.2/src/%{name}-%{version}.tar.gz
 # Source0-md5:	c95efbae806eca1cce4120552bfdd1b8
 URL:		http://home.gna.org/clive/
-BuildRequires:	python-devel >= 2.5
+BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	rpm-pythonprov
+%pyrequires_eq	python-libs
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -15,8 +18,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 clive is a command line program that extracts videos from YouTube,
 Google Video and Dailymotion websites. It supports embedded video
 extraction, and can be used with an external encoder (e.g. ffmpeg) to
-re-encode the extracted videos to different video formats (e.g. avi,
-mpeg, flv).
+re-encode the extracted videos to different video formats (e.g. AVI,
+MPEG, flv).
+
+%description -l pl.UTF-8
+clive to działający z linii poleceń program do wydobywania filmów z
+serwisów YouTube, Google Video i Dailymotion. Obsługuje wyciąganie
+osadzonych filmów i może być używany zewnętrznym koderem (np.
+ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
+(np. AVI, MPEG, flv).
 
 %prep
 %setup -q
@@ -26,7 +36,6 @@ python setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 python setup.py install \
