@@ -1,0 +1,11 @@
+--- clive-0.3.1/setup.py~	2007-11-01 19:41:13.000000000 +0200
++++ clive-0.3.1/setup.py	2007-11-01 19:41:15.103122197 +0200
+@@ -50,7 +50,7 @@
+   'Topic :: Utilities'
+ ]
+ 
+-data_files = [ ('man/man1', ['man/clive.1.gz']) ]
++data_files = [ ('share/man/man1', ['man/clive.1']) ]
+ 
+ setup_args = dict(
+ 	name = 'clive',
