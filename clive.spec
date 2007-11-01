@@ -7,9 +7,11 @@ License:	GPL
 Group:		Applications/System
 Source0:	http://dl.gna.org/clive/0.3/src/%{name}-%{version}.tar.gz
 # Source0-md5:	2ba7b7ea3af64177fed7748e1736ce56
+Patch0:		%{name}-setup.patch
 URL:		http://home.gna.org/clive/
-BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.219
 %pyrequires_eq	python-libs
 Requires:	python-urlgrabber >= 2.9.9
 BuildArch:	noarch
@@ -31,20 +33,19 @@ ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
 
 %prep
 %setup -q
+%patch0 -p1
+%{__gzip} -d man/*.gz
 
 %build
 python setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
-
 python setup.py install \
-        --optimize=2 \
-        --root=$RPM_BUILD_ROOT
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 
-gzip -d man/*.gz
-install man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -55,5 +56,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %dir %{py_sitescriptdir}/%{name}
 %{py_sitescriptdir}/%{name}/*.py[co]
-%{py_sitescriptdir}/*.egg-info
 %{_mandir}/man1/clive.1*
