@@ -1,0 +1,42 @@
+--- clive-0.4.1/clive/parse.py	2008-01-20 01:24:26.960335855 +0200
++++ clive-0.4.1-spz/clive/parse.py	2008-01-20 01:23:07.943359159 +0200
+@@ -50,6 +50,7 @@
+ 			('guba.com', 'guba', self._parse_guba),
+ 			('stage6.', 'stage6', self._parse_stage6),
+ 			('delfi.', 'delfi', self._parse_delfi),
++			('www.southparkzone.com', 'southparkzone', self._parse_southparkzone),
+ 		]
+ 
+ 	## Parses a video page data (HTML).
+@@ -62,6 +63,7 @@
+ 	# \param say A callback function for printing out stdout messages
+ 	def parse(self, data, url, opts, callb_query_video_length, say):
+ 		self._say = say
++		self._opts = opts
+ 
+ 		fmt = formatter.AbstractFormatter(formatter.NullWriter())
+ 		p = HTMLParser(fmt)
+@@ -195,6 +197,23 @@
+ 		vid = md5.new(str(time.time())).hexdigest()[:8]
+ 		return (url, vid)
+ 
++	def _parse_southparkzone(self, url, data):
++		mirror_id = self._parse_from_to(data, "episodeinfo.php?mirror=", "'")
++		from urlgrabber.grabber import URLGrabber
++		from clive.progress import Progress
++		g = URLGrabber(
++			user_agent = self._opts.user_agent,
++			progress_obj = Progress(),
++			proxies = self._opts.proxy,
++		)
++		url = "http://www.southparkzone.com/" + mirror_id
++		o = g.urlopen(url)
++		data = o.read()
++		url = self._parse_from_to(data, "<location><![CDATA[", "]]></location>", skip_from = 1)
++
++		vid = md5.new(str(time.time())).hexdigest()[:8]
++		return (url, vid)
++
+ 	def _parse_from_to(self, data, _from, to, skip_from=0):
+ 		start = data.find(_from)
+ 		end = data.find(to, start)
