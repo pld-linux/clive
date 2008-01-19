@@ -1,25 +1,26 @@
---- clive-0.3.1/clive/parse.py	2007-10-28 23:11:16.000000000 +0200
-+++ clive-0.3.1.delfi/clive/parse.py	2007-11-21 23:21:45.850962793 +0200
-@@ -52,6 +52,8 @@
- 			video_url = self._parse_guba(data)
- 		elif url.find('stage6.divx.com') != -1:
- 			video_url = self._parse_stage6(data)
-+		elif url.find('delfi.') != -1:
-+			video_url = self._parse_delfi(data)
- 		else:
- 			(scheme, host, path, params, query, fragment) = \
- 				urlparse.urlparse(url)
-@@ -136,6 +138,14 @@
- 		return self._parse_from_to(data,
- 			'http://video.stage6.com/', '&')
+--- clive-0.4.1/clive/parse.py	2008-01-06 02:40:04.000000000 +0200
++++ clive-0.4.1-delfi/clive/parse.py	2008-01-20 00:31:04.282874939 +0200
+@@ -49,6 +49,7 @@
+ 			('dailymotion.', 'dmotion', self._parse_dmotion),
+ 			('guba.com', 'guba', self._parse_guba),
+ 			('stage6.', 'stage6', self._parse_stage6),
++			('delfi.', 'delfi', self._parse_delfi),
+ 		]
  
-+	def _parse_delfi(self, data):
+ 	## Parses a video page data (HTML).
+@@ -184,6 +185,16 @@
+ 
+ 		return (url, vid)
+ 
++	def _parse_delfi(self, url, data):
 +		text = self._parse_from_to(data, "flv_url:", ",")
 +		try:
-+			return urllib.unquote(text.replace("'", "").split('flv_url: ',2)[1])
++			url = urllib.unquote(text.replace("'", "").split('flv_url: ',2)[1])
 +		except IndexError:
 +			pass
-+		return ''
++
++		vid = md5.new(str(time.time())).hexdigest()[:8]
++		return (url, vid)
 +
  	def _parse_from_to(self, data, _from, to, skip_from=0):
  		start = data.find(_from)
