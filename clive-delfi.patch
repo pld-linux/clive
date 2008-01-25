@@ -1,9 +1,9 @@
---- clive-0.4.1/clive/parse.py	2008-01-06 02:40:04.000000000 +0200
-+++ clive-0.4.1-delfi/clive/parse.py	2008-01-20 00:31:04.282874939 +0200
-@@ -49,6 +49,7 @@
- 			('dailymotion.', 'dmotion', self._parse_dmotion),
+--- clive-0.4.3/clive/parse.py~	2008-01-25 02:37:04.087918332 +0200
++++ clive-0.4.3/clive/parse.py	2008-01-25 02:37:22.658094354 +0200
+@@ -50,6 +50,7 @@
  			('guba.com', 'guba', self._parse_guba),
  			('stage6.', 'stage6', self._parse_stage6),
+ 			('metacafe.', 'metac', self._parse_metacafe),
 +			('delfi.', 'delfi', self._parse_delfi),
  		]
  
