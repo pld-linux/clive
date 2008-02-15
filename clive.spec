@@ -11,7 +11,7 @@ Patch0:		%{name}-setup.patch
 Patch1:		%{name}-delfi.patch
 Patch2:		%{name}-spz.patch
 URL:		http://home.gna.org/clive/
-BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 %pyrequires_eq	python-libs
@@ -59,5 +59,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/clive
 %dir %{py_sitescriptdir}/%{name}
 %{py_sitescriptdir}/%{name}/*.py[co]
-%{py_sitescriptdir}/clive-*.egg-info
 %{_mandir}/man1/clive.1*
