@@ -1,26 +1,82 @@
---- clive-0.4.10/src/clive/parse.py~	2008-04-25 23:53:39.000000000 +0300
-+++ clive-0.4.10/src/clive/parse.py	2008-04-25 23:55:53.000000000 +0300
+--- clive-0.4.10/src/clive/parse.py	2008-04-21 10:54:55.000000000 +0300
++++ clive-0.4.10-delfi/src/clive/parse.py	2008-04-26 01:09:31.000000000 +0300
 @@ -50,6 +50,7 @@
              ('dailymotion.', 'dmotion', self._parse_dmotion),
              ('guba.com', 'guba', self._parse_guba),
              ('metacafe.', 'metac', self._parse_metacafe),
-+			('delfi.', 'delfi', self._parse_delfi),
++            ('delfi.', 'delfi', self._parse_delfi),
          ]
  
      ## Parses a video page data (HTML)
-@@ -221,6 +222,16 @@
+@@ -221,6 +222,72 @@
          url = self._parse_from_to(data, 'mediaURL=', '&', skip_from=1)
          return (url, vid, low_quality)
  
-+	def _parse_delfi(self, url, data, low_quality):
-+		text = self._parse_from_to(data, "flv_url:", ",")
-+		try:
-+			url = urllib.unquote(text.replace("'", "").split('flv_url: ',2)[1])
-+		except IndexError:
-+			pass
++    def _graburl(self, url, read=1):
++        from urlgrabber.grabber import URLGrabber, URLGrabError
++        data = ''
++        try:
++            g = URLGrabber(
++                http_headers = (('accept-encoding', 'gzip'),),
++                user_agent = self._opts.http_agent,
++                proxies = self._opts.http_proxy
++            )
++            o = g.urlopen(url)
++            if read:
++                data = o.read()
++                if o.hdr.get('content-encoding') == 'gzip':
++                    data = gzip.GzipFile(fileobj=StringIO(data)).read()
++            return data
++        except URLGrabError, err:
++            self._say('%s [%s]' % (e.strerror,url), is_error=1)
++            raise SystemExit
++        return data
 +
-+		vid = md5.new(str(time.time())).hexdigest()[:8]
-+		return (url, vid, low_quality)
++    def _parse_delfi(self, url, data, low_quality):
++        url = None
++
++        s = self._parse_from_to(data, "flv_url:", ",")
++        if s:
++            # videobox
++            # http://www.delfi.ee/news/paevauudised/paevavideo/article.php?id=15218215
++            try:
++                url = s.replace("'", "").split('flv_url: ',2)[1]
++            except IndexError:
++                pass
++
++        if not url:
++            # videoproject embed
++            # http://www.delfi.ee/news/paevauudised/paevavideo/article.php?id=18759038
++            s = self._parse_from_to(data, "_delfiVideoSalt", ";")
++            salt = None
++            try:
++                salt = s.split('"',2)[1]
++            except IndexError:
++                pass
++
++            if salt != None:
++                # find url to videoproject
++                s = self._parse_from_to(data, "src=", "/js/embed.js")
++                s = s[5 + s.rfind("src"):] + "/video/" + salt + "/"
++                # fetch video page
++                s = self._graburl(s)
++                s = self._parse_from_to(s, "s1.addVariable('file'", ";");
++                try:
++                    url = s.split("'")[3]
++                except IndexError:
++                    pass
++
++        if not url:
++            # videoproject
++            # http://video.delfi.ee/video/Uu4gF58g/
++            s = self._parse_from_to(data, "s1.addVariable('file'", ";");
++            try:
++                url = s.split("'")[3]
++            except IndexError:
++                pass
++
++        vid = md5.new(str(time.time())).hexdigest()[:8]
++        return (url, vid, low_quality)
 +
      def _random_vid(self):
          return md5.new(str(time.time())).hexdigest()[:8]
