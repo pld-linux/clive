@@ -70,16 +70,16 @@ setup_args = dict(
 	maintainer_email = author_email,
 	url = _clive.__url__,
 	license = 'GPL',
-	scripts = ['scripts/clive'],
+	scripts = ['src/scripts/clive'],
 	packages = ['clive'],
-	package_dir = {'clive':'clive'},
+	package_dir = {'clive':'src/clive'},
 	data_files = data_files,
 	classifiers = classifiers,
 	platforms = ['Any']
 )
 
 if sys.platform == 'win32' and _py2exe_avail:
-	setup_args['console'] = ['scripts/clive']
+	setup_args['console'] = ['src/scripts/clive']
 	setup_args['data_files'] = []
 
 # gzip clive.1; otherwise bdist_rpm will fail
