@@ -1,5 +1,5 @@
---- clive-0.4.10/src/clive/parse.py~	2008-04-25 23:56:56.000000000 +0300
-+++ clive-0.4.10/src/clive/parse.py	2008-04-25 23:59:51.000000000 +0300
+--- clive-0.4.11/src/clive/parse.py	2008-04-26 16:06:21.000000000 +0300
++++ clive-0.4.11-spz/src/clive/parse.py	2008-04-26 16:04:07.000000000 +0300
 @@ -51,6 +51,7 @@
              ('guba.com', 'guba', self._parse_guba),
              ('metacafe.', 'metac', self._parse_metacafe),
@@ -8,22 +8,13 @@
          ]
  
      ## Parses a video page data (HTML)
-@@ -232,6 +233,23 @@
+@@ -288,6 +289,14 @@
          vid = md5.new(str(time.time())).hexdigest()[:8]
          return (url, vid, low_quality)
  
 +    def _parse_southparkzone(self, url, data, low_quality):
 +        mirror_id = self._parse_from_to(data, "episodeinfo.php?mirror=", "'")
-+        from urlgrabber.grabber import URLGrabber
-+        from clive.progress import Progress
-+        g = URLGrabber(
-+            user_agent = self._opts.user_agent,
-+            progress_obj = Progress(),
-+            proxies = self._opts.proxy,
-+        )
-+        url = "http://www.southparkzone.com/" + mirror_id
-+        o = g.urlopen(url)
-+        data = o.read()
++        data = self._graburl("http://www.southparkzone.com/" + mirror_id)
 +        url = self._parse_from_to(data, "<location><![CDATA[", "]]></location>", skip_from = 1)
 +
 +        vid = md5.new(str(time.time())).hexdigest()[:8]
