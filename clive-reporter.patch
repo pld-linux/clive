@@ -4,7 +4,7 @@
              ('metacafe.', 'metac', self._parse_metacafe),
              ('delfi.', 'delfi', self._parse_delfi),
              ('www.southparkzone.com', 'southparkzone', self._parse_southparkzone),
-+            ('reporter.ee', 'reporter', self._parse_reporter),
++            ('www.reporter.ee', 'reporter', self._parse_reporter),
          ]
  
      ## Parses a video page data (HTML)
