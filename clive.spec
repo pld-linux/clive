@@ -2,7 +2,7 @@ Summary:	Video extraction utility for YouTube and Google Video
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
 Version:	0.4.11
-Release:	0.3
+Release:	0.4
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://download.gna.org/clive/0.4/src/%{name}-%{version}.tar.bz2
@@ -10,6 +10,7 @@ Source0:	http://download.gna.org/clive/0.4/src/%{name}-%{version}.tar.bz2
 Source1:	%{name}-setup.py
 Patch0:		%{name}-delfi.patch
 Patch1:		%{name}-spz.patch
+Patch2:		%{name}-reporter.patch
 URL:		http://home.gna.org/clive/
 BuildRequires:	python-devel >= 1:2.4
 BuildRequires:	rpm-pythonprov
@@ -38,6 +39,7 @@ ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # switch back to python install. we don't need autofoo as we don't build newt
 cp %{SOURCE1} setup.py
