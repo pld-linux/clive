@@ -27,6 +27,8 @@ import gzip
 
 from distutils.core import setup
 
+sys.path.insert(0, 'src')
+
 import clive as _clive
 
 if sys.platform == 'win32':
