@@ -1,9 +1,9 @@
 --- clive-0.4.10/src/clive/parse.py	2008-04-21 10:54:55.000000000 +0300
 +++ clive-0.4.10-delfi/src/clive/parse.py	2008-04-26 01:09:31.000000000 +0300
 @@ -50,6 +50,7 @@
-             ('metacafe.', 'metac', self._parse_metacafe),
              ('sevenload.com', 'sevenl', self._parse_sevenload),
              ('myvideo.', 'myvideo', self._parse_myvideo),
+             #('break.com', 'break', self._parse_break),
 +            ('delfi.', 'delfi', self._parse_delfi),
          ]
  
