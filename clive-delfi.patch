@@ -3,7 +3,7 @@
 @@ -50,6 +50,7 @@
              ('sevenload.com', 'sevenl', self._parse_sevenload),
              ('myvideo.', 'myvideo', self._parse_myvideo),
-             #('break.com', 'break', self._parse_break),
+             ('break.com', 'break', self._parse_break),
 +            ('delfi.', 'delfi', self._parse_delfi),
          ]
  
