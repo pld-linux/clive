@@ -1,12 +1,12 @@
 Summary:	Video extraction utility for YouTube and Google Video
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
-Version:	1.0.0
+Version:	1.0.1
 Release:	1
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://download.gna.org/clive/1.0.x/%{name}-%{version}.tar.bz2
-# Source0-md5:	7658c00f514f9d3e22de0a246e0879f9
+# Source0-md5:	052f9f8e57fec92737faabf02c1d6567
 Source1:	%{name}-setup.py
 Patch0:		%{name}-delfi.patch
 Patch1:		%{name}-spz.patch
