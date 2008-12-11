@@ -33,7 +33,7 @@
 +        GrabVideoSalt   => qr|_delfiVideoSalt\s*=\s*"([^"]+)";|,
 +        GrabVideoSite   => qr|src="(\S+://[^/]+)/js/embed.js"|,
 +	# videoproject
-+	# http://video.delfi.ee/video/Uu4gF58g/
++	# http://video.delfi.ee/video/CzurzqNz/
 +		GrabVideoURL   => qr|\.addVariable\('file',\s*'([^']+)'|,
 +    );
 +
