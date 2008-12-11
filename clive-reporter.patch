@@ -1,0 +1,71 @@
+--- clive-2.1.0/clive	2008-12-11 23:42:37.000000000 +0200
++++ clive-2.1.0-reporter/clive	2008-12-11 23:43:19.000000000 +0200
+@@ -85,6 +85,7 @@
+     IsLastfm    => qr|\Qlast.fm\E|i,
+     IsLiveleak  => qr|\Qliveleak.com\E|i,
+     IsDelfi     => qr|\Q.delfi.\E|i,
++    IsReporter  => qr|\Qwww.reporter.ee\E|i,
+     #IsMetacafe => qr|\Qmetacafe.com\E|i,
+ );
+ 
+@@ -306,6 +307,8 @@
+         ($xurl, $id) = handle_liveleak($response_ref, $response_fh);
+     } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
+         ($xurl, $id) = handle_delfi($response_ref, $response_fh);
++    } elsif ( $url =~ /$re_hosts{IsReporter}/ ) {
++        ($xurl, $id) = handle_reporter($response_ref, $response_fh);
+     }
+ #    elsif ( $url =~ /$re_hosts{IsMetacafe}/ ) {
+ #        ($xurl, $id) = handle_metacafe($response_ref);
+@@ -369,6 +372,14 @@
+                         $content_ok = 1;
+                     }
+                 }
++            # Reporter returns "flv-application/octet-stream"
++            } elsif ( $content_type =~ m!application/octet-stream! ) {
++                if ( $entry{page_url} =~ /$re_hosts{IsReporter}/ ) {
++                    if ( $opts{format} eq "flv" ) {
++                        $entry{file_suffix} = 'flv';
++                        $content_ok = 1;
++                    }
++                }
+             }
+             $errmsg = "expected different content-type, "
+                 . "received \"$content_type\"" unless $content_ok;
+@@ -727,7 +738,7 @@
+         GrabVideoSalt   => qr|_delfiVideoSalt\s*=\s*"([^"]+)";|,
+         GrabVideoSite   => qr|src="(\S+://[^/]+)/js/embed.js"|,
+ 	# videoproject
+-	# http://video.delfi.ee/video/CzurzqNz/
++	# http://video.delfi.ee/video/Uu4gF58g/
+ 		GrabVideoURL   => qr|\.addVariable\('file',\s*'([^']+)'|,
+     );
+ 
+@@ -773,6 +784,27 @@
+     return ($xurl, $id);
+ }
+ 
++sub handle_reporter {
++    my ($response_ref, $response_fh) = @_;
++
++    my %re = (
++	# http://www.reporter.ee/index.php/2008/04/21/soiduopetaja-vorpis-poiste-nupeldamisest-videoklippe/
++		GrabVideoPrefix => qr|obj\s+=\s+{type:"video",file:"(\w+://[^"]+)|,
++		GrabVideoID     => qr|attributes\s+=\s+{id:\s+"video([^"]+)"|,
++    );
++
++	my $xurl;
++    my $id     = $1 if $$response_ref =~ /$re{GrabVideoID}/;
++    my $prefix = $1 if $$response_ref =~ /$re{GrabVideoPrefix}/;
++
++	if ($id and $prefix) {
++        $xurl = $prefix . $id . '.flv';
++	} else {
++        print STDERR "error: url not found\n";
++    }
++
++    return ($xurl, $id);
++}
+ 
+ # Subroutines: Progress
+ # NOTE: the 'dot' progress copies much from wget.
