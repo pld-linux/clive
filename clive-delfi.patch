@@ -1,0 +1,84 @@
+--- clive-2.1.0/clive	2008-12-11 20:19:25.263179888 +0200
++++ clive-2.1.0-delfi/clive	2008-12-11 23:03:43.000000000 +0200
+@@ -84,6 +84,7 @@
+     IsBreak     => qr|\Qbreak.com\E|i,
+     IsLastfm    => qr|\Qlast.fm\E|i,
+     IsLiveleak  => qr|\Qliveleak.com\E|i,
++    IsDelfi     => qr|\Qdelfi.\E|i,
+     #IsMetacafe => qr|\Qmetacafe.com\E|i,
+ );
+ 
+@@ -303,6 +304,8 @@
+         ($xurl, $id, $title) = handle_break($response_ref);
+     } elsif ( $url =~ /$re_hosts{IsLiveleak}/ ) {
+         ($xurl, $id) = handle_liveleak($response_ref, $response_fh);
++    } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
++        ($xurl, $id) = handle_delfi($response_ref, $response_fh);
+     }
+ #    elsif ( $url =~ /$re_hosts{IsMetacafe}/ ) {
+ #        ($xurl, $id) = handle_metacafe($response_ref);
+@@ -712,6 +715,64 @@
+     return ($xurl, $id);
+ }
+ 
++sub handle_delfi {
++    my ($response_ref, $response_fh) = @_;
++
++    my %re = (
++	# videobox
++	# http://www.delfi.ee/news/paevauudised/paevavideo/article.php?id=15218215
++        GrabVideoboxURL => qr|flv_url:\s*'(.*?)'|,
++	# videoproject embed
++	# http://www.delfi.ee/news/paevauudised/paevavideo/article.php?id=18759038
++        GrabVideoSalt   => qr|_delfiVideoSalt\s*=\s*"([^"]+)";|,
++        GrabVideoSite   => qr|src="(\S+://[^/]+)/js/embed.js"|,
++	# videoproject
++	# http://video.delfi.ee/video/Uu4gF58g/
++		GrabVideoURL   => qr|\.addVariable\('file',\s*'([^']+)'|,
++    );
++
++	my ($xurl, $id);
++    my $videobox_url = $1 if $$response_ref =~ /$re{GrabVideoboxURL}/;
++    my $video_salt   = $1 if $$response_ref =~ /$re{GrabVideoSalt}/;
++    my $video_site   = $1 if $$response_ref =~ /$re{GrabVideoSite}/;
++    my $video_url   = $1 if $$response_ref =~ /$re{GrabVideoURL}/;
++
++    if ($videobox_url) {
++        $id = $1 if $xurl =~ m{/([^/]+)\.flv$};
++		$xurl = $videobox_url;
++
++	} elsif ($video_url) {
++        $xurl = uri_unescape($video_url);
++        $id = $1 if $xurl =~ m{^\S+://[^/]+/v/(.+?)\.flv};
++
++    } elsif ($video_salt and $video_site) {
++		my $url = $video_site . '/video/' . $video_salt . '/';
++		print "done.\nfetch page ..." unless $opts{quiet};
++
++		my $page = "";
++		open my $fh, ">", \$page;
++
++		# Disable: header
++		$curl->setopt(CURLOPT_HEADER, 0);
++		$curl->setopt(CURLOPT_URL, $url);
++		$curl->setopt(CURLOPT_WRITEDATA, $fh);
++
++		my $rc = $curl->perform;
++		close $fh;
++
++		if ($rc == 0) {
++			# recurse
++			($xurl, $id) = handle_delfi(\$page);
++		} else {
++			print STDERR "\nerror: " . $curl->strerror($rc) . " (http/$rc)\n";
++		}
++	} else {
++        print STDERR "error: url not found\n";
++    }
++
++    return ($xurl, $id);
++}
++
+ 
+ # Subroutines: Progress
+ # NOTE: the 'dot' progress copies much from wget.
