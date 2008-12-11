@@ -4,7 +4,7 @@
      IsBreak     => qr|\Qbreak.com\E|i,
      IsLastfm    => qr|\Qlast.fm\E|i,
      IsLiveleak  => qr|\Qliveleak.com\E|i,
-+    IsDelfi     => qr|\Qdelfi.\E|i,
++    IsDelfi     => qr|\Q\.delfi.\E|i,
      #IsMetacafe => qr|\Qmetacafe.com\E|i,
  );
  
