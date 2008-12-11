@@ -8,7 +8,7 @@ Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
 Version:	2.1.0
-Release:	0.3
+Release:	0.4
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
@@ -16,7 +16,8 @@ Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
 URL:		http://clive.sourceforge.net/
 Patch0:		%{name}-delfi.patch
 Patch1:		%{name}-reporter.patch
-#Patch2:		%{name}-spz.patch
+#Patch2:	%{name}-spz.patch
+BuildRequires:	perl-tools-pod
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRequires:	sed >= 4.0
 Requires:	perl-BerkeleyDB >= 0.34
@@ -55,10 +56,14 @@ ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
 %patch1 -p1
 #%patch2 -p1
 
+%build
+pod2man clive > clive.1
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
 install %{name} $RPM_BUILD_ROOT%{_bindir}
+cp -a clive.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -67,3 +72,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CHANGES TODO
 %attr(755,root,root) %{_bindir}/clive
+%{_mandir}/man1/clive.1*
