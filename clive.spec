@@ -2,6 +2,7 @@
 # - update patches
 # - check if it work
 #
+%include	/usr/lib/rpm/macros.perl
 Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
@@ -12,17 +13,19 @@ License:	GPL v2+
 Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	cfa070cae349b812b8dddfc0409a5196
-URL:		http://home.gna.org/clive/
+URL:		http://clive.sourceforge.net/
 Patch0:		%{name}-delfi.patch
 Patch1:		%{name}-reporter.patch
 Patch2:		%{name}-spz.patch
-Requires:	perl >= 1:5.8.0
+BuildRequires:	rpm-perlprov >= 4.1-13
+BuildRequires:	sed >= 4.0
 Requires:	perl-BerkeleyDB >= 0.34
 Requires:	perl-Config-Tiny >= 2.12
 Requires:	perl-HTML-TokeParser-Simple >= 2.37
 Requires:	perl-IO-Pager >= 0.05
 Requires:	perl-WWW-Curl >= 4.0.5
 Requires:	perl-XML-Simple >= 2.18
+Requires:	perl-base >= 1:5.8.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -47,6 +50,7 @@ ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
 
 %prep
 %setup -q
+%{__sed} -i -e '1s,#.*perl,#!%{__perl},' clive
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
