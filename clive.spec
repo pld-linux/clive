@@ -1,5 +1,6 @@
-#
-# TODO: check if it work
+# TODO
+# - update patches
+# - check if it work
 #
 Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
@@ -12,6 +13,9 @@ Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	cfa070cae349b812b8dddfc0409a5196
 URL:		http://home.gna.org/clive/
+Patch0:		%{name}-delfi.patch
+Patch1:		%{name}-reporter.patch
+Patch2:		%{name}-spz.patch
 Requires:	perl >= 1:5.8.0
 Requires:	perl-BerkeleyDB >= 0.34
 Requires:	perl-Config-Tiny >= 2.12
@@ -43,11 +47,13 @@ ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
-
 install %{name} $RPM_BUILD_ROOT%{_bindir}
 
 %clean
