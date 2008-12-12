@@ -44,7 +44,7 @@
 +    my $video_url   = $1 if $$response_ref =~ /$re{GrabVideoURL}/;
 +
 +    if ($videobox_url) {
-+        $id = $1 if $xurl =~ m{/([^/]+)\.flv$};
++        $id = $1 if $videobox_url =~ m{/([^/]+)\.flv$};
 +		$xurl = $videobox_url;
 +
 +	} elsif ($video_url) {
