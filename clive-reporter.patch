@@ -1,27 +1,27 @@
---- clive-2.1.2/clive~	2009-01-01 13:27:50.000000000 +0000
-+++ clive-2.1.2/clive	2009-01-01 13:33:20.000000000 +0000
+--- clive-2.1.0/clive	2008-12-11 23:42:37.000000000 +0200
++++ clive-2.1.0-reporter/clive	2008-12-11 23:43:19.000000000 +0200
 @@ -85,6 +85,7 @@
      IsLastfm    => qr|\Qlast.fm\E|i,
      IsLiveleak  => qr|\Qliveleak.com\E|i,
      IsDelfi     => qr|\Q.delfi.\E|i,
 +    IsReporter  => qr|\Qwww.reporter.ee\E|i,
-     IsEvisor    => qr|\Qevisor.tv\E|i,
      #IsMetacafe => qr|\Qmetacafe.com\E|i,
  );
-@@ -334,6 +335,8 @@
+ 
+@@ -306,6 +307,8 @@
          ($xurl, $id) = handle_liveleak($response_ref, $response_fh);
      } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
- 	($xurl, $id) = handle_delfi($response_ref, $response_fh);
+         ($xurl, $id) = handle_delfi($response_ref, $response_fh);
 +    } elsif ( $url =~ /$re_hosts{IsReporter}/ ) {
 +        ($xurl, $id) = handle_reporter($response_ref, $response_fh);
-     } elsif ( $url =~ /$re_hosts{IsEvisor}/ ) {
-         ($xurl, $id) = handle_evisor($response_ref);
      }
-@@ -402,6 +405,14 @@
+ #    elsif ( $url =~ /$re_hosts{IsMetacafe}/ ) {
+ #        ($xurl, $id) = handle_metacafe($response_ref);
+@@ -369,6 +372,14 @@
                          $content_ok = 1;
                      }
                  }
-+	   # Reporter returns "flv-application/octet-stream"
++            # Reporter returns "flv-application/octet-stream"
 +            } elsif ( $content_type =~ m!application/octet-stream! ) {
 +                if ( $entry{page_url} =~ /$re_hosts{IsReporter}/ ) {
 +                    if ( $opts{format} eq "flv" ) {
@@ -31,41 +31,32 @@
 +                }
              }
              $errmsg = "expected different content-type, "
-                     . "received \"$content_type\""
-@@ -879,6 +890,7 @@
- 	   GrabVideoSite   => qr|src="(\S+://[^/]+)/js/embed.js"|,
- 	   # videoproject
- 	   # http://video.delfi.ee/video/CzurzqNz/
-+	   # http://video.delfi.ee/video/Uu4gF58g/
- 	   GrabVideoURL   => qr|\.addVariable\('file',\s*'([^']+)'|,
- 	);
- 
-@@ -924,6 +936,28 @@
- 	return ($xurl, $id);
+                 . "received \"$content_type\"" unless $content_ok;
+@@ -773,6 +784,27 @@
+     return ($xurl, $id);
  }
  
 +sub handle_reporter {
 +    my ($response_ref, $response_fh) = @_;
 +
 +    my %re = (
-+       # http://www.reporter.ee/index.php/2008/04/21/soiduopetaja-vorpis-poiste-nupeldamisest-videoklippe/
-+               GrabVideoPrefix => qr|obj\s
-+               GrabVideoID     => qr|attributes\s
++    # http://www.reporter.ee/index.php/2008/04/21/soiduopetaja-vorpis-poiste-nupeldamisest-videoklippe/
++        GrabVideoPrefix => qr|obj\s+=\s+{type:"video",file:"(\w+://[^"]+)|,
++        GrabVideoID     => qr|attributes\s+=\s+{id:\s+"video([^"]+)"|,
 +    );
 +
-+       my $xurl;
++    my $xurl;
 +    my $id     = $1 if $$response_ref =~ /$re{GrabVideoID}/;
 +    my $prefix = $1 if $$response_ref =~ /$re{GrabVideoPrefix}/;
 +
-+       if ($id and $prefix) {
++    if ($id and $prefix) {
 +        $xurl = $prefix . $id . '.flv';
-+       } else {
++    } else {
 +        print STDERR "error: url not found\n";
 +    }
 +
 +    return ($xurl, $id);
 +}
-+
+ 
  # Subroutines: Progress
  # NOTE: the 'dot' progress copies much from wget.
- 
