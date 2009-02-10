@@ -1,13 +1,13 @@
---- clive-2.1.0/clive	2008-12-11 23:42:37.000000000 +0200
-+++ clive-2.1.0-reporter/clive	2008-12-11 23:43:19.000000000 +0200
-@@ -85,6 +85,7 @@
-     IsLastfm    => qr|\Qlast.fm\E|i,
+--- clive-2.1.5/clive~  2009-02-10 11:09:45.000000000 +0100
++++ clive-2.1.5/clive   2009-02-10 11:13:10.000000000 +0100
+@@ -86,6 +86,7 @@
      IsLiveleak  => qr|\Qliveleak.com\E|i,
+     IsEvisor    => qr|\Qevisor.tv\E|i,
      IsDelfi     => qr|\Q.delfi.\E|i,
 +    IsReporter  => qr|\Qwww.reporter.ee\E|i,
-     #IsMetacafe => qr|\Qmetacafe.com\E|i,
  );
- 
+
+ # Parse config
 @@ -306,6 +307,8 @@
          ($xurl, $id) = handle_liveleak($response_ref, $response_fh);
      } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
