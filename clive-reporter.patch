@@ -1,10 +1,10 @@
 --- clive-2.1.5/clive~  2009-02-10 11:09:45.000000000 +0100
 +++ clive-2.1.5/clive   2009-02-10 11:13:10.000000000 +0100
 @@ -86,6 +86,7 @@
-     IsLiveleak  => qr|\Qliveleak.com\E|i,
-     IsEvisor    => qr|\Qevisor.tv\E|i,
-     IsDelfi     => qr|\Q.delfi.\E|i,
-+    IsReporter  => qr|\Qwww.reporter.ee\E|i,
+     IsLiveleak  => qr|liveleak.com|i,
+     IsEvisor    => qr|evisor.tv|i,
+     IsDelfi     => qr|.delfi.|i,
++    IsReporter  => qr|www.reporter.ee|i,
  );
 
  # Parse config
