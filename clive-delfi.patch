@@ -1,22 +1,22 @@
 --- clive-2.1.5/clive~  2009-02-10 11:00:52.000000000 +0100
 +++ clive-2.1.5/clive   2009-02-10 11:04:56.000000000 +0100
-@@ -85,6 +85,7 @@
-     IsLastfm    => qr|last.fm|i,
+@@ -79,6 +79,7 @@
      IsLiveleak  => qr|liveleak.com|i,
      IsEvisor    => qr|evisor.tv|i,
+     IsDmotion   => qr|dailymotion.com|i,
 +    IsDelfi     => qr|.delfi.|i,
  );
 
- # Parse config 
-@@ -333,6 +334,8 @@
-         ($xurl, $id) = handle_liveleak($response_ref, $response_fh);
-     } elsif ( $url =~ /$re_hosts{IsEvisor}/ ) {
+ # Parse config
+@@ -324,6 +325,8 @@
          ($xurl, $id) = handle_evisor($response_ref);
+     } elsif ($url =~ /$re_hosts{IsDmotion}/) {
+         ($xurl, $id) = handle_dmotion($response_ref);
 +    } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
-+        ($xurl, $id) = handle_delfi($response_ref, $response_fh);
++       ($xurl, $id) = handle_delfi($response_ref, $response_fh);
      }
- #    elsif ( $url =~ /$re_hosts{IsMetacafe}/ ) {
- #        ($xurl, $id) = handle_metacafe($response_ref);
+     return -1
+         if !$xurl or !$id or !$title;
 @@ -712,6 +715,64 @@
      return ($xurl, $id);
  }

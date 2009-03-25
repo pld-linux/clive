@@ -8,15 +8,15 @@
  );
 
  # Parse config
-@@ -306,6 +307,8 @@
-         ($xurl, $id) = handle_liveleak($response_ref, $response_fh);
+@@ -328,6 +328,8 @@
+         ($xurl, $id) = handle_dmotion($response_ref);
      } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
-         ($xurl, $id) = handle_delfi($response_ref, $response_fh);
+        ($xurl, $id) = handle_delfi($response_ref, $response_fh);
 +    } elsif ( $url =~ /$re_hosts{IsReporter}/ ) {
-+        ($xurl, $id) = handle_reporter($response_ref, $response_fh);
++       ($xurl, $id) = handle_reporter($response_ref, $response_fh);
      }
- #    elsif ( $url =~ /$re_hosts{IsMetacafe}/ ) {
- #        ($xurl, $id) = handle_metacafe($response_ref);
+     return -1
+         if !$xurl or !$id or !$title;
 @@ -369,6 +372,14 @@
                          $content_ok = 1;
                      }
