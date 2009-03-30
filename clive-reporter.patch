@@ -1,11 +1,11 @@
---- clive-2.1.5/clive~  2009-02-10 11:09:45.000000000 +0100
-+++ clive-2.1.5/clive   2009-02-10 11:13:10.000000000 +0100
+--- clive-2.1.9/clive~  2009-03-30 12:13:37.000000000 +0200
++++ clive-2.1.9/clive   2009-03-30 12:15:01.000000000 +0200
 @@ -86,6 +86,7 @@
-     IsLiveleak  => qr|liveleak.com|i,
-     IsEvisor    => qr|evisor.tv|i,
-     IsDelfi     => qr|.delfi.|i,
-+    IsReporter  => qr|www.reporter.ee|i,
- );
+                  IsEvisor    => qr|evisor.tv|i,
+                  IsDmotion   => qr|dailymotion.com|i,
+                  IsDelfi     => qr|.delfi.|i,
++                IsReporter  => qr|www.reporter.ee|i,
+                );
 
  # Parse config
 @@ -328,6 +328,8 @@
@@ -32,7 +32,7 @@
              }
              $errmsg = "expected different content-type, "
                  . "received \"$content_type\"" unless $content_ok;
-@@ -773,6 +784,27 @@
+@@ -1061,6 +1062,28 @@
      return ($xurl, $id);
  }
  
@@ -57,6 +57,7 @@
 +
 +    return ($xurl, $id);
 +}
- 
++
  # Subroutines: Progress
  # NOTE: the 'dot' progress copies much from wget.
+ 

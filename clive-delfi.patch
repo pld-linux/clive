@@ -1,11 +1,11 @@
---- clive-2.1.5/clive~  2009-02-10 11:00:52.000000000 +0100
-+++ clive-2.1.5/clive   2009-02-10 11:04:56.000000000 +0100
-@@ -79,6 +79,7 @@
-     IsLiveleak  => qr|liveleak.com|i,
-     IsEvisor    => qr|evisor.tv|i,
-     IsDmotion   => qr|dailymotion.com|i,
-+    IsDelfi     => qr|.delfi.|i,
- );
+--- clive-2.1.9/clive~  2009-03-30 11:55:42.000000000 +0200
++++ clive-2.1.9/clive   2009-03-30 12:05:00.000000000 +0200
+@@ -85,6 +85,7 @@
+                  IsLiveleak  => qr|liveleak.com|i,
+                  IsEvisor    => qr|evisor.tv|i,
+                  IsDmotion   => qr|dailymotion.com|i,
++                 IsDelfi     => qr|.delfi.|i,
+                );
 
  # Parse config
 @@ -324,6 +325,8 @@
@@ -17,13 +17,13 @@
      }
      return -1
          if !$xurl or !$id or !$title;
-@@ -712,6 +715,64 @@
+@@ -992,6 +993,64 @@
      return ($xurl, $id);
  }
  
 +sub handle_delfi {
 +    my ($response_ref, $response_fh) = @_;
-+
++ 
 +    my %re = (
 +    # videobox
 +    # http://www.delfi.ee/news/paevauudised/paevavideo/article.php?id=15218215
@@ -79,6 +79,5 @@
 +    return ($xurl, $id);
 +}
 +
- 
  # Subroutines: Progress
  # NOTE: the 'dot' progress copies much from wget.
