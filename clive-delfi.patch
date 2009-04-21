@@ -48,7 +48,7 @@
 +        $xurl = $videobox_url;
 +
 +    } elsif ($video_url) {
-+        $xurl = uri_unescape($video_url);
++        $xurl = URI::Escape::uri_unescape($video_url);
 +        $id = $1 if $xurl =~ m{^\S+://[^/]+/v/(.+?)\.flv};
 +
 +    } elsif ($video_salt and $video_site) {
