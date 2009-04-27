@@ -1,22 +1,21 @@
---- clive-2.1.9/clive~  2009-03-30 11:55:42.000000000 +0200
-+++ clive-2.1.9/clive   2009-03-30 12:05:00.000000000 +0200
-@@ -85,6 +85,7 @@
-                  IsLiveleak  => qr|liveleak.com|i,
+--- clive-2.1.10/clive~ 2009-04-27 11:14:37.000000000 +0200
++++ clive-2.1.10/clive  2009-04-27 11:21:15.000000000 +0200
+@@ -87,6 +87,7 @@
                   IsEvisor    => qr|evisor.tv|i,
                   IsDmotion   => qr|dailymotion.com|i,
+                  IsCctv      => qr|tv.cctv.com|i,
 +                 IsDelfi     => qr|.delfi.|i,
                 );
 
- # Parse config
-@@ -324,6 +325,8 @@
-         ($xurl, $id) = handle_evisor($response_ref);
-     } elsif ($url =~ /$re_hosts{IsDmotion}/) {
-         ($xurl, $id) = handle_dmotion($response_ref);
-+    } elsif ( $url =~ /$re_hosts{IsDelfi}/ ) {
-+       ($xurl, $id) = handle_delfi($response_ref, $response_fh);
-     }
-     return -1
-         if !$xurl or !$id or !$title;
+ my @re_hosts_arr = (
+@@ -99,6 +100,7 @@
+                     [$re_hosts{IsEvisor},    \&handle_evisor],
+                     [$re_hosts{IsDmotion},   \&handle_dmotion],
+                     [$re_hosts{IsCctv},      \&handle_cctv],
++                    [$re_hosts{IsDelfi},     \&handle_delfi],
+                    );
+
+ # Parse config              
 @@ -992,6 +993,64 @@
      return ($xurl, $id);
  }
