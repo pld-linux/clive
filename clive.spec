@@ -4,14 +4,14 @@ Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
 Version:	2.1.11
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
 # Source0-md5:	344a68a88cf59359ae2240589117fcfd
 URL:		http://clive.sourceforge.net/
 Patch0:		%{name}-delfi.patch
-Patch1:		%{name}-reporter.patch
+#Patch1:		%{name}-reporter.patch
 #Patch2:	%{name}-spz.patch
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpm-perlprov >= 4.1-13
@@ -49,7 +49,7 @@ ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
 %setup -q
 %{__sed} -i -e '1s,#.*perl,#!%{__perl},' clive
 %patch0 -p1
-%patch1 -p1
+##patch1 -p1
 #%%patch2 -p1
 
 %build
