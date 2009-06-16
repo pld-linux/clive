@@ -1,23 +1,27 @@
+#
+# TODO: fix patches
+#
 %include	/usr/lib/rpm/macros.perl
 Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
-Version:	2.1.14
-Release:	2
-License:	GPL v2+
+Version:	2.2.0
+Release:	0.1
+License:	GPL v3+
 Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	ce55bb3b7cfeb679cb457e8a82d78bf3
+# Source0-md5:	f340cc4ed51dce00244769bf0f9c36af
 URL:		http://clive.sourceforge.net/
-Patch0:		%{name}-delfi.patch
-#Patch1:		%{name}-reporter.patch
-#Patch2:	%{name}-spz.patch
+#Patch0: %{name}-delfi.patch
+#Patch1: %{name}-reporter.patch
+#Patch2: %{name}-spz.patch
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpm-perlprov >= 4.1-13
-BuildRequires:	sed >= 4.0
 Requires:	perl-BerkeleyDB >= 0.34
+Requires:	perl-Class-Singleton
 Requires:	perl-Config-Tiny >= 2.12
+Requires:	perl-Getopt-ArgvFile
 Requires:	perl-HTML-TokeParser-Simple >= 2.37
 Requires:	perl-IO-Pager >= 0.05
 Requires:	perl-WWW-Curl >= 4.0.5
@@ -33,39 +37,61 @@ chained with 3rd party tools for subsequent video re-encoding and
 playing and playing.
 
 %description -l hu.UTF-8
-clive egy videó letöltő eszköz felhasználó által feltöltött videó
-oldalakhoz, úgymint a YouTube, Google Video, Dailymotion, Guba és
-Metacafe. Külső eszközökkel összekapcsolható, videó újrakódolásához és
-lejátszásához.
+clive egy videó letöltő eszköz felhasználó által feltöltött
+videó oldalakhoz, úgymint a YouTube, Google Video, Dailymotion, Guba
+és Metacafe. Külső eszközökkel összekapcsolható, videó
+újrakódolásához és lejátszásához.
 
 %description -l pl.UTF-8
-clive to działający z linii poleceń program do wydobywania filmów z
-serwisów YouTube, Google Video i Dailymotion. Obsługuje wyciąganie
-osadzonych filmów i może być używany wraz z zewnętrznym koderem (np.
-ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
-(np. AVI, MPEG, flv).
+clive to działający z linii poleceń program do wydobywania filmów
+z serwisów YouTube, Google Video i Dailymotion. Obsługuje
+wyciąganie osadzonych filmów i może być używany wraz z
+zewnętrznym koderem (np. ffmpegiem) do przekodowywania
+wyciągniętych filmów do innych formatów (np. AVI, MPEG, flv).
 
 %prep
 %setup -q
-%{__sed} -i -e '1s,#.*perl,#!%{__perl},' clive
-%patch0 -p1
-##patch1 -p1
+#%%patch0 -p1
+#%%patch1 -p1
 #%%patch2 -p1
 
 %build
-pod2man clive > clive.1
+pod2man bin/clive > clive.1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
-install %{name} $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{perl_vendorlib}/clive}
+install bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 cp -a clive.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -r lib/clive/* $RPM_BUILD_ROOT%{perl_vendorlib}/clive
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGES
+%doc CHANGES README
 %attr(755,root,root) %{_bindir}/clive
+%dir %{perl_vendorlib}/clive
+%{perl_vendorlib}/clive/App.pm
+%{perl_vendorlib}/clive/Cache.pm
+%{perl_vendorlib}/clive/Config.pm
+%{perl_vendorlib}/clive/Curl.pm
+%{perl_vendorlib}/clive/Exec.pm
+%dir %{perl_vendorlib}/clive/Host
+%{perl_vendorlib}/clive/Host/Break.pm
+%{perl_vendorlib}/clive/Host/Cctv.pm
+%{perl_vendorlib}/clive/Host/Dailymotion.pm
+%{perl_vendorlib}/clive/Host/Evisor.pm
+%{perl_vendorlib}/clive/Host/Google.pm
+%{perl_vendorlib}/clive/Host/Liveleak.pm
+%{perl_vendorlib}/clive/Host/Redtube.pm
+%{perl_vendorlib}/clive/Host/Sevenload.pm
+%{perl_vendorlib}/clive/Host/Youtube.pm
+%{perl_vendorlib}/clive/HostFactory.pm
+%{perl_vendorlib}/clive/Log.pm
+%dir %{perl_vendorlib}/clive/Progress
+%{perl_vendorlib}/clive/Progress/Bar.pm
+%{perl_vendorlib}/clive/Util.pm
+%{perl_vendorlib}/clive/Video.pm
 %{_mandir}/man1/clive.1*
