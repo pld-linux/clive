@@ -6,12 +6,12 @@ Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
-Version:	2.2.0
+Version:	2.2.1
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	f340cc4ed51dce00244769bf0f9c36af
+# Source0-md5:	cee2823a40c7f46cf7436f82be6d06c8
 URL:		http://clive.sourceforge.net/
 #Patch0: %{name}-delfi.patch
 #Patch1: %{name}-reporter.patch
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorlib}/clive/Config.pm
 %{perl_vendorlib}/clive/Curl.pm
 %{perl_vendorlib}/clive/Exec.pm
+%{perl_vendorlib}/clive/Error.pm
+%{perl_vendorlib}/clive/HostFactory.pm
 %dir %{perl_vendorlib}/clive/Host
 %{perl_vendorlib}/clive/Host/Break.pm
 %{perl_vendorlib}/clive/Host/Cctv.pm
@@ -88,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorlib}/clive/Host/Redtube.pm
 %{perl_vendorlib}/clive/Host/Sevenload.pm
 %{perl_vendorlib}/clive/Host/Youtube.pm
-%{perl_vendorlib}/clive/HostFactory.pm
+%{perl_vendorlib}/clive/Host/Vimeo.pm
 %{perl_vendorlib}/clive/Log.pm
 %dir %{perl_vendorlib}/clive/Progress
 %{perl_vendorlib}/clive/Progress/Bar.pm
