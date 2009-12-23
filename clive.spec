@@ -6,12 +6,12 @@ Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
-Version:	2.2.7
+Version:	2.2.8
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/System
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	3f713d996b9a440f83188c19db4023a0
+# Source0-md5:	fd690551ca7f84ce39fe161039c7c5b8
 URL:		http://clive.sourceforge.net/
 #Patch0: %{name}-delfi.patch
 #Patch1: %{name}-reporter.patch
@@ -37,17 +37,17 @@ chained with 3rd party tools for subsequent video re-encoding and
 playing and playing.
 
 %description -l hu.UTF-8
-clive egy videó letöltő eszköz felhasználó által feltöltött
-videó oldalakhoz, úgymint a YouTube, Google Video, Dailymotion, Guba
-és Metacafe. Külső eszközökkel összekapcsolható, videó
-újrakódolásához és lejátszásához.
+clive egy videó letöltő eszköz felhasználó által feltöltött videó
+oldalakhoz, úgymint a YouTube, Google Video, Dailymotion, Guba és
+Metacafe. Külső eszközökkel összekapcsolható, videó újrakódolásához és
+lejátszásához.
 
 %description -l pl.UTF-8
-clive to działający z linii poleceń program do wydobywania filmów
-z serwisów YouTube, Google Video i Dailymotion. Obsługuje
-wyciąganie osadzonych filmów i może być używany wraz z
-zewnętrznym koderem (np. ffmpegiem) do przekodowywania
-wyciągniętych filmów do innych formatów (np. AVI, MPEG, flv).
+clive to działający z linii poleceń program do wydobywania filmów z
+serwisów YouTube, Google Video i Dailymotion. Obsługuje wyciąganie
+osadzonych filmów i może być używany wraz z zewnętrznym koderem (np.
+ffmpegiem) do przekodowywania wyciągniętych filmów do innych formatów
+(np. AVI, MPEG, flv).
 
 %prep
 %setup -q
