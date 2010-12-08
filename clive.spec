@@ -1,17 +1,18 @@
 #
-# TODO: fix patches
+# TODO: fix patches and send upstream or abandon them
 #
 %include	/usr/lib/rpm/macros.perl
 Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
-Version:	2.2.17
+Version:	2.2.18
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/System
+#Source0Download: http://code.google.com/p/clive/downloads/list
 Source0:	http://clive.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	17ca9d74c532805efe7caf5c18d8b163
+# Source0-md5:	b2d0c255c4c86f1ae9f49e438e9ac8f7
 URL:		http://clive.sourceforge.net/
 #Patch0: %{name}-delfi.patch
 #Patch1: %{name}-reporter.patch
