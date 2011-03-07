@@ -6,13 +6,13 @@ Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
-Version:	2.2.22
+Version:	2.2.23
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/System
 #Source0Download: http://code.google.com/p/clive/downloads/list
 Source0:	http://downloads.sourceforge.net/clive/%{name}-%{version}.tar.gz
-# Source0-md5:	3743ad7078941e248fb1f9f57df1ab24
+# Source0-md5:	b3fccb3cb54508f23f77e07ac61512c0
 URL:		http://clive.sourceforge.net/
 #Patch0: %{name}-delfi.patch
 #Patch1: %{name}-reporter.patch
@@ -64,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{perl_vendorlib}/clive}
 install bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 cp -a clive.1 $RPM_BUILD_ROOT%{_mandir}/man1
-cp -r lib/clive/* $RPM_BUILD_ROOT%{perl_vendorlib}/clive
+cp -a lib/clive/* $RPM_BUILD_ROOT%{perl_vendorlib}/clive
 
 %clean
 rm -rf $RPM_BUILD_ROOT
