@@ -38,7 +38,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 clive is a video extraction tool for user-uploaded video hosts such as
 Youtube, Google Video, Dailymotion, Guba and Metacafe. It can be
 chained with 3rd party tools for subsequent video re-encoding and
-playing and playing.
+playing.
 
 %description -l hu.UTF-8
 clive egy videó letöltő eszköz felhasználó által feltöltött videó
