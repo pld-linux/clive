@@ -1,7 +1,6 @@
 #
 # TODO: fix patches and send upstream or abandon them
 #
-%include	/usr/lib/rpm/macros.perl
 Summary:	Video extraction utility for YouTube and Google Video
 Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
