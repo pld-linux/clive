@@ -6,7 +6,7 @@ Summary(hu.UTF-8):	Videó letöltő a YouTube és a Google Video oldalakról
 Summary(pl.UTF-8):	Narzędzie do wydobywania filmów z YouTube i Google Video
 Name:		clive
 Version:	2.2.28
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/System
 #Source0Download: http://code.google.com/p/clive/downloads/list
